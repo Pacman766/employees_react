@@ -1,4 +1,6 @@
-const EmployersListItem = () => {
+import './employees-list-item.css';
+
+const EmployeesListItem = () => {
   return (
     <li className="list-group-item d-flex justify-content-between">
       <span className="list-group-item-label">John Smith</span>
@@ -20,3 +22,5 @@ const EmployersListItem = () => {
     </li>
   );
 };
+
+export default EmployeesListItem;
