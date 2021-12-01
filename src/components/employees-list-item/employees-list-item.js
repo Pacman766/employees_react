@@ -1,5 +1,7 @@
 import './employees-list-item.css';
 
+// компонент для каждой отдельной строки списка
+// деструктурируем props до name, salary, increase
 const EmployeesListItem = ({ name, salary, increase }) => {
   let classNames = 'list-group-item d-flex justify-content-between';
   if (increase) {
