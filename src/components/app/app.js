@@ -18,7 +18,7 @@ class App extends Component {
         { name: 'Carl W.', salary: 15000, increase: false, id: 3 },
       ],
     };
-    this.maxId = 4;
+    this.maxId = 4; // добавляем id
   }
 
   deleteItem = (id) => {
@@ -28,12 +28,29 @@ class App extends Component {
       // const after = data.slice(index + 1);
       // const newArr = [...before, ...after];
 
-
       // возвращает только те элементы id которых не совпадает с тем который нам пришел (на который был клик)
       return {
-        data: data.filter(item => item.id !== id),
+        data: data.filter((item) => item.id !== id),
       };
     });
+  };
+
+  // ф-ция добавления нового сотрудника с полями name, salary. 
+  // 1) создаем новый объект, где maxId увелич. с каждым добавлением
+  // 2) создаем копию массива с новым сотрудником
+  addItem = (name, salary) => {
+    const newItem = {
+      name,
+      salary,
+      increase: false,
+      id: this.maxId++
+    }
+    this.setState(({data}) => {
+      const newArr = [...data, newItem];
+      return {
+        data: newArr
+      }
+    })
   };
 
   render() {
@@ -46,8 +63,11 @@ class App extends Component {
           <AppFilter />
         </div>
 
-        <EmployeesList data={this.state.data} onDelete={this.deleteItem} />
-        <EmployeesAddForm />
+        <EmployeesList
+          data={this.state.data}
+          onDelete={this.deleteItem}
+        />
+         <EmployeesAddForm onAdd={this.addItem}/> {/* атрибут добавления нов сотрудника */}
       </div>
     );
   }
