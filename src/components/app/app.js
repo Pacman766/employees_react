@@ -69,7 +69,7 @@ class App extends Component {
     //   return {
     //     data: newArr,
     //   };
-    // });
+    // }); 
     this.setState(({ data }) => ({
       data: data.map((item) => {
         if (item.id === id) {
@@ -94,6 +94,7 @@ class App extends Component {
         </div>
         <EmployeesList
           data={this.state.data}
+          // вызов методов через контекст
           onDelete={this.deleteItem}
           onToggleIncrease={this.onToggleIncrease}
           onToggleRise={this.onToggleRise}
