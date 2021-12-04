@@ -13,9 +13,9 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        { name: 'John C.', salary: 800, increase: false, id: 1 },
-        { name: 'Alex M.', salary: 3000, increase: true, id: 2 },
-        { name: 'Carl W.', salary: 15000, increase: false, id: 3 },
+        { name: 'John C.', salary: 800, increase: false, like: true, id: 1 },
+        { name: 'Alex M.', salary: 3000, increase: true, like: false, id: 2 },
+        { name: 'Carl W.', salary: 15000, increase: false, like: false, id: 3 },
       ],
     };
     this.maxId = 4; // добавляем id
@@ -35,7 +35,7 @@ class App extends Component {
     });
   };
 
-  // ф-ция добавления нового сотрудника с полями name, salary. 
+  // ф-ция добавления нового сотрудника с полями name, salary.
   // 1) создаем новый объект, где maxId увелич. с каждым добавлением
   // 2) создаем копию массива с новым сотрудником
   addItem = (name, salary) => {
@@ -43,31 +43,63 @@ class App extends Component {
       name,
       salary,
       increase: false,
-      id: this.maxId++
-    }
-    this.setState(({data}) => {
+      like: false,
+      id: this.maxId++,
+    };
+    this.setState(({ data }) => {
       const newArr = [...data, newItem];
       return {
-        data: newArr
-      }
-    })
+        data: newArr,
+      };
+    });
+  };
+
+  onToggleIncrease = (id) => {
+    // this.setState(({ data }) => {
+    //   const index = data.findIndex((elem) => elem.id === id);
+
+    //   const old = data[index];
+    //   const newItem = { ...old, increase: !old.increase };
+    //   const newArr = [
+    //     ...data.slice(0, index),
+    //     newItem,
+    //     ...data.slice(index + 1),
+    //   ];
+
+    //   return {
+    //     data: newArr,
+    //   };
+    // });
+    this.setState(({ data }) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, increase: !item.increase };
+        }
+        return item;
+      }),
+    }));
+  };
+
+  onToggleRise = (id) => {
+    console.log(`Rise this ${id}`);
   };
 
   render() {
     return (
       <div className="app">
         <AppInfo />
-
         <div className="search-panel">
           <SearchPanel />
           <AppFilter />
         </div>
-
         <EmployeesList
           data={this.state.data}
           onDelete={this.deleteItem}
+          onToggleIncrease={this.onToggleIncrease}
+          onToggleRise={this.onToggleRise}
         />
-         <EmployeesAddForm onAdd={this.addItem}/> {/* атрибут добавления нов сотрудника */}
+        <EmployeesAddForm onAdd={this.addItem} />{' '}
+        {/* атрибут добавления нов сотрудника */}
       </div>
     );
   }
