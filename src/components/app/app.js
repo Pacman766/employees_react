@@ -81,13 +81,24 @@ class App extends Component {
   };
 
   onToggleRise = (id) => {
-    console.log(`Rise this ${id}`);
+    this.setState(({ data }) => ({
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, like: !item.like };
+        }
+        return item;
+      }),
+    }));
   };
 
+
   render() {
+    const amountOfEmp = this.state.data.length;
+    const increased = this.state.data.filter(item => item.increase).length
     return (
       <div className="app">
-        <AppInfo />
+        <AppInfo amountOfEmp={amountOfEmp} 
+        increased={increased}/>
         <div className="search-panel">
           <SearchPanel />
           <AppFilter />

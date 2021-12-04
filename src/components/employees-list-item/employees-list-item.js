@@ -1,7 +1,7 @@
 import './employees-list-item.css';
 
 // компонент для каждой отдельной строки списка
-// деструктурируем props до name, salary, increase
+// деструктурируем props до name, salary, increase..
 const EmployeesListItem = (props) => {
 
     const { name, salary, onDelete, onToggleIncrease, onToggleRise, increase, like} = props;
