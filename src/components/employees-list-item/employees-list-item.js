@@ -4,14 +4,14 @@ import './employees-list-item.css';
 // деструктурируем props до name, salary, increase..
 const EmployeesListItem = (props) => {
 
-    const { name, salary, onDelete, onToggleIncrease, onToggleRise, increase, like} = props;
+    const { name, salary, onDelete, onToggleIncrease, onToggleRise, increase, rise} = props;
 
     let classNames = 'list-group-item d-flex justify-content-between';
     if (increase) {
       classNames += ' increase';
     }
-    if (like) {
-      classNames += ' like';
+    if (rise) {
+      classNames += ' rise';
     }
 
     return (

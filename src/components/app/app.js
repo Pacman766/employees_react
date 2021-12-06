@@ -13,9 +13,9 @@ class App extends Component {
     super(props);
     this.state = {
       data: [
-        { name: 'John C.', salary: 800, increase: false, like: true, id: 1 },
-        { name: 'Alex M.', salary: 3000, increase: true, like: false, id: 2 },
-        { name: 'Carl W.', salary: 15000, increase: false, like: false, id: 3 },
+        { name: 'John C.', salary: 800, increase: false, rise: true, id: 1 },
+        { name: 'Alex M.', salary: 3000, increase: true, rise: false, id: 2 },
+        { name: 'Carl W.', salary: 15000, increase: false, rise: false, id: 3 },
       ],
     };
     this.maxId = 4; // добавляем id
@@ -43,7 +43,7 @@ class App extends Component {
       name,
       salary,
       increase: false,
-      like: false,
+      rise: false,
       id: this.maxId++,
     };
     this.setState(({ data }) => {
@@ -70,6 +70,8 @@ class App extends Component {
     //     data: newArr,
     //   };
     // }); 
+    
+    // разворачиваем массим с объектами, создаем новый массив, пробегаемся по нему методом map и при условии равных id мы возвраещаем развернутый объект этого массива со св-вом increase в противоположном значении
     this.setState(({ data }) => ({
       data: data.map((item) => {
         if (item.id === id) {
@@ -84,7 +86,7 @@ class App extends Component {
     this.setState(({ data }) => ({
       data: data.map((item) => {
         if (item.id === id) {
-          return { ...item, like: !item.like };
+          return { ...item, rise: !item.rise };
         }
         return item;
       }),
