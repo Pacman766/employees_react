@@ -17,6 +17,7 @@ class App extends Component {
         { name: 'Alex M.', salary: 3000, increase: true, rise: false, id: 2 },
         { name: 'Carl W.', salary: 15000, increase: false, rise: false, id: 3 },
       ],
+      term: ''
     };
     this.maxId = 4; // добавляем id
   }
@@ -70,7 +71,7 @@ class App extends Component {
     //     data: newArr,
     //   };
     // }); 
-    
+
     // разворачиваем массим с объектами, создаем новый массив, пробегаемся по нему методом map и при условии равных id мы возвраещаем развернутый объект этого массива со св-вом increase в противоположном значении
     this.setState(({ data }) => ({
       data: data.map((item) => {
@@ -93,8 +94,13 @@ class App extends Component {
     }));
   };
 
+  searchEmp = (items, term) => {
+
+  }
+
 
   render() {
+    const {data, term} = this.state;
     const amountOfEmp = this.state.data.length;
     const increased = this.state.data.filter(item => item.increase).length
     return (
@@ -106,7 +112,7 @@ class App extends Component {
           <AppFilter />
         </div>
         <EmployeesList
-          data={this.state.data}
+          data={data}
           // вызов методов через контекст
           onDelete={this.deleteItem}
           onToggleIncrease={this.onToggleIncrease}
