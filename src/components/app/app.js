@@ -17,7 +17,7 @@ class App extends Component {
         { name: 'Alex M.', salary: 3000, increase: true, rise: false, id: 2 },
         { name: 'Carl W.', salary: 15000, increase: false, rise: false, id: 3 },
       ],
-      term: ''
+      term: '',
     };
     this.maxId = 4; // добавляем id
   }
@@ -55,39 +55,23 @@ class App extends Component {
     });
   };
 
-  onToggleIncrease = (id) => {
-    // this.setState(({ data }) => {
-    //   const index = data.findIndex((elem) => elem.id === id);
+  // разворачиваем массим с объектами, создаем новый массив, пробегаемся по нему методом map и при условии равных id мы возвраещаем развернутый объект этого массива со св-вом increase в противоположном значении
+  // onToggleRise = (id) => {
+  //   this.setState(({ data }) => ({
+  //     data: data.map((item) => {
+  //       if (item.id === id) {
+  //         return { ...item, rise: !item.rise };
+  //       }
+  //       return item;
+  //     }),
+  //   }));
+  // };
 
-    //   const old = data[index];
-    //   const newItem = { ...old, increase: !old.increase };
-    //   const newArr = [
-    //     ...data.slice(0, index),
-    //     newItem,
-    //     ...data.slice(index + 1),
-    //   ];
-
-    //   return {
-    //     data: newArr,
-    //   };
-    // }); 
-
-    // разворачиваем массим с объектами, создаем новый массив, пробегаемся по нему методом map и при условии равных id мы возвраещаем развернутый объект этого массива со св-вом increase в противоположном значении
+  onToggleProp = (id, prop) => {
     this.setState(({ data }) => ({
       data: data.map((item) => {
         if (item.id === id) {
-          return { ...item, increase: !item.increase };
-        }
-        return item;
-      }),
-    }));
-  };
-
-  onToggleRise = (id) => {
-    this.setState(({ data }) => ({
-      data: data.map((item) => {
-        if (item.id === id) {
-          return { ...item, rise: !item.rise };
+          return { ...item, [prop]: !item[prop] };
         }
         return item;
       }),
@@ -95,28 +79,36 @@ class App extends Component {
   };
 
   searchEmp = (items, term) => {
+    if (term === 0) {
+      return items;
+    }
+    return items.filter(item => {
+      return item.name.indexOf(term) > -1 // ищем на совпадение (введенная строка term) в имени (name), если такого нет, то условие не выполняется и выводит -1
+    })
+  };
 
-  }
-
+    // принимает строку и устанавливает состояние внутри главного компонтента в app.js
+    onUpdateSearchApp = (term) => {
+      this.setState({term});
+    }
 
   render() {
-    const {data, term} = this.state;
+    const { data, term } = this.state;
     const amountOfEmp = this.state.data.length;
-    const increased = this.state.data.filter(item => item.increase).length
+    const increased = this.state.data.filter((item) => item.increase).length;
+    const visibleData = this.searchEmp(data, term);
     return (
       <div className="app">
-        <AppInfo amountOfEmp={amountOfEmp} 
-        increased={increased}/>
+        <AppInfo amountOfEmp={amountOfEmp} increased={increased} />
         <div className="search-panel">
-          <SearchPanel />
+          <SearchPanel onUpdateSearchApp={this.onUpdateSearchApp}/>
           <AppFilter />
         </div>
         <EmployeesList
-          data={data}
+          data={visibleData}
           // вызов методов через контекст
           onDelete={this.deleteItem}
-          onToggleIncrease={this.onToggleIncrease}
-          onToggleRise={this.onToggleRise}
+          onToggleProp={this.onToggleProp}
         />
         <EmployeesAddForm onAdd={this.addItem} />{' '}
         {/* атрибут добавления нов сотрудника */}
