@@ -18,7 +18,7 @@ class App extends Component {
         { name: 'Carl W.', salary: 15000, increase: false, rise: false, id: 3 },
       ],
       term: '',
-      filter: '',
+      filter: 'all', // default filter status
     };
     this.maxId = 4; // добавляем id
   }
@@ -79,6 +79,7 @@ class App extends Component {
     }));
   };
 
+  // searching emp with input of term
   searchEmp = (items, term) => {
     if (term.length === 0) {
       return items;
@@ -93,32 +94,39 @@ class App extends Component {
     this.setState({ term });
   };
 
-  // проверить
+  // filter of employees by clicking filter
   filterEmp = (items, filter) => {
-    for (const i of filter) {
-      if (i[1]) {
+    switch (filter) {
+      case 'rise':
         return items.filter((item) => item.rise);
-      } else if (i[2]) {
+      case 'greater1000':
         return items.filter((item) => item.salary > 1000);
-      } else return items;
+      default:
+        return items;
     }
   };
+
+  // setting filter state
+  onFilterSelect = (filter) => {
+    this.setState({filter});
+  }
 
   render() {
     const { data, term, filter } = this.state;
     const amountOfEmp = this.state.data.length;
     const increased = this.state.data.filter((item) => item.increase).length;
-    const visibleData = this.searchEmp(data, term);
+    // first arg of filterEmp is arr of the result of searching, then filter state
+    const visibleData = this.filterEmp(this.searchEmp(data, term), filter);
     return (
       <div className="app">
         <AppInfo amountOfEmp={amountOfEmp} increased={increased} />
         <div className="search-panel">
           <SearchPanel onUpdateSearchApp={this.onUpdateSearchApp} />
-          <AppFilter />
+          <AppFilter filter={filter} onFilterSelect={this.onFilterSelect}/>
         </div>
         <EmployeesList
+        // вызов методов через контекст
           data={visibleData}
-          // вызов методов через контекст
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
         />
